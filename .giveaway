@@ -1,0 +1,105 @@
+$nomention
+$if[$isSlash==true]
+$jsonParse[$getVar[sysgive;$authorID]]
+$var[estado;$json[estado]]
+$var[estadoTexto;🔴 Desactivado]
+$if[$var[estado]==1]$var[estadoTexto;🟢 Activado]$endif
+
+
+$if[$var[estado]==0]
+$onlyPerms[admin;❌ No tienes permisos para administrar giveaways]
+
+
+$ephemeral
+$var[estadoTexto;🔴 Desactivado]
+$if[$var[estado]==1]$var[estadoTexto;🟢 Activado]$endif
+$title[🎉 Panel de Administración de Giveaways]
+$description[Usa los botones para gestionar los giveaways:
+
+🔹 Estado actual del sistema: $var[estadoTexto]
+
+1️⃣ **Gestionar Giveaway** – Ver y controlar un giveaway existente.  
+2️⃣ **Crear Giveaway** – Inicia un nuevo giveaway en el servidor.  
+3️⃣ **Terminar Giveaway** – Finaliza un giveaway activo.]
+
+$color[#5865F2]
+$image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
+$footer[Giveaway System By Methdev]
+$addButton[no;gw-main-$authorID;🟢Activar;success;;;]
+$addButton[no;manage_gw-$authorID;🛠️ Gestionar;success;;;]
+$addButton[no;create_gw-$authorID;➕ Crear;success;;;]
+$addButton[no;end_gw-$authorID;🛑 Terminar;danger;;;]
+$else
+$onlyPerms[admin;❌ No tienes permisos para administrar giveaways]
+
+$ephemeral
+$var[estadoTexto;🔴 Desactivado]
+$if[$var[estado]==1]$var[estadoTexto;🟢 Activado]$endif
+$title[🎉 Panel de Administración de Giveaways]
+$description[Usa los botones para gestionar los giveaways:
+
+🔹 Estado actual del sistema: $var[estadoTexto]
+
+1️⃣ **Gestionar Giveaway** – Ver y controlar un giveaway existente.  
+2️⃣ **Crear Giveaway** – Inicia un nuevo giveaway en el servidor.  
+3️⃣ **Terminar Giveaway** – Finaliza un giveaway activo.]
+
+$color[#5865F2]
+$image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
+$footer[Giveaway System By Methdev]
+$addButton[no;gw-main1-$authorID;🛑Desactivar;danger;;;]
+$addButton[no;manage_gw-$authorID;🛠️ Gestionar;success;;;]
+$addButton[no;create_gw-$authorID;➕ Crear;success;;;]
+$addButton[no;end_gw-$authorID;🛑 Terminar;danger;;;]
+$endif
+$else
+$jsonParse[$getVar[sysgive;$authorID]]
+$var[estado;$json[estado]]
+$var[estadoTexto;🔴 Desactivado]
+$if[$var[estado]==1]$var[estadoTexto;🟢 Activado]$endif
+
+
+$if[$var[estado]==0]
+$onlyPerms[admin;❌ No tienes permisos para administrar giveaways]
+
+
+$ephemeral
+$var[estadoTexto;🔴 Desactivado]
+$if[$var[estado]==1]$var[estadoTexto;🟢 Activado]$endif
+$title[🎉 Panel de Administración de Giveaways]
+$description[Usa los botones para gestionar los giveaways:
+
+🔹 Estado actual del sistema: $var[estadoTexto]
+
+1️⃣ **Gestionar Giveaway** – Ver y controlar un giveaway existente.  
+2️⃣ **Crear Giveaway** – Inicia un nuevo giveaway en el servidor.  
+3️⃣ **Terminar Giveaway** – Finaliza un giveaway activo.]
+
+$color[#5865F2]
+$image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
+$footer[Giveaway System By Methdev]
+$addButton[no;manage_gw-$authorID;🛠️ Gestionar;success;;;]
+$addButton[no;gw-post-$authorID;📢Post Giveaway;success;;;]
+$addButton[no;end_gw-$authorID;🛑 Terminar;danger;;;]
+$else
+$onlyPerms[admin;❌ No tienes permisos para administrar giveaways]
+
+$ephemeral
+$var[estadoTexto;🔴 Desactivado]
+$if[$var[estado]==1]$var[estadoTexto;🟢 Activado]$endif
+$title[🎉 Panel de Administración de Giveaways]
+$description[Usa los botones para gestionar los giveaways:
+
+🔹 Estado actual del sistema: $var[estadoTexto]
+
+1️⃣ **Gestionar Giveaway** – Ver y controlar un giveaway existente.  
+2️⃣ **Crear Giveaway** – Inicia un nuevo giveaway en el servidor.  
+3️⃣ **Terminar Giveaway** – Finaliza un giveaway activo.]
+
+$color[#5865F2]
+$image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
+$footer[Giveaway System By Methdev]
+$addButton[no;manage_gw-$authorID;🛠️ Gestionar;success;;;]
+$addButton[no;gw-post-$authorID;📢Post Giveaway;success;;;]
+$addButton[no;end_gw-$authorID;🛑 Terminar;danger;;;]
+$endif
