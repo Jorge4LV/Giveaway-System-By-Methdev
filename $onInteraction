@@ -4,15 +4,48 @@ $time[America/New_York] $c[Hora base: Nueva York (timestamps consistentes)]
 
 $onlyPerms[admin;❌ No tienes permisos para administrar giveaways]
 
-
 $c[======= ⚠️ ADVERTENCIA ⚠️ ========]
-$c[===== El modificar/hacer uso indebido o intentar aprovecharse de este sistema esta prohibido en nuestros Términos y condiciones del uso del servicio. Si detectamos actividad inusual de algun usuario, cuenta o IP/Dispositivo, bloquearemos el acceso y eliminaremos su cuenta de nuestro servicio sin previo aviso y sin posibilidad de quitar el baneo. ¡NO MODOFIQUES NADA!]
+$c[===== El modificar/hacer uso indebido o intentar aprovecharse de este sistema esta prohibido en nuestros Términos y condiciones del uso del servicio. Si detectamos actividad inusual de algun usuario, cuenta o IP/Dispositivo, bloquearemos el acceso y eliminaremos su cuenta de nuestro servicio sin previo aviso y sin posibilidad de quitar el baneo. ¡NO MODIFIQUES NADA!]
 $var[api;https://pmifbvtzqejujixarusq.supabase.co/functions/v1/giveaway]
 $c[======= ⚠️ ADVERTENCIA ⚠️ ========]
 
 $c[======= 🟢 TOKEN 🟢 ========]
 $var[token;TU_TOKEN_AQUI]
 $c[Coloca el token que te dimos al acceder en nuestro portal]
+
+$c[================= CHEQUEOS PREVIOS OBLIGATORIOS =================]
+$c[1) Validar que exista la variable JSON sysgive]
+$if[$getVar[sysgive;$authorID]==]
+  $ephemeral
+  $title[❌ | Falta configuración inicial]
+  $description[No tienes configurada la variable **sysgive** para tu usuario.  
+
+Por favor, crea primero la variable con el valor por defecto:
+
+\`\`\`json
+{"estado":"0","canal":"No","time":"0","create":"No","token":"No","id":"0","win":"1"}
+\`\`\`
+
+Luego vuelve a intentar.]
+  $color[#FF4D4F]
+  $footer[Giveaway System By Methdev]
+  $stop
+$endif
+
+$c[2) Validación del token de ejecución]
+$if[$var[token]==TU_TOKEN_AQUI]
+  $ephemeral
+  $title[❌ | Token no configurado]
+  $description[Debes configurar tu **token personal** en el código antes de usar este sistema.  
+➡️ Reemplaza \`TU_TOKEN_AQUI\` por el token asignado en nuestro portal.]
+  $color[#FF0000]
+  $footer[Giveaway System By Methdev]
+  $stop
+$else
+  $jsonParse[$getVar[sysgive;$authorID]]
+  $jsonSetString[token;Si]
+  $setVar[sysgive;$jsonStringify;$authorID]
+$endif
 
 $c[==========================================================================]
 $c[                             PANEL PRINCIPAL                              ]
@@ -34,8 +67,8 @@ $if[$customID==gw-main-$authorID]
 2️⃣ **Crear Giveaway** – Inicia un nuevo giveaway en el servidor.  
 3️⃣ **Terminar Giveaway** – Finaliza un giveaway activo.]
   $color[#5865F2]
-$image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
-$footer[Giveaway System By Methdev]
+  $image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
+  $footer[Giveaway System By Methdev]
   $removeAllComponents
   $addButton[no;gw-main1-$authorID;🛑 Desactivar;danger;;;]
   $addButton[no;manage_gw-$authorID;🛠️ Gestionar;success;;;]
@@ -58,8 +91,9 @@ $elseif[$customID==gw-main1-$authorID]
 2️⃣ **Crear Giveaway** – Inicia un nuevo giveaway en el servidor.  
 3️⃣ **Terminar Giveaway** – Finaliza un giveaway activo.]
   $color[#5865F2] 
-$image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
-$footer[Giveaway System By Methdev]$removeAllComponents
+  $image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
+  $footer[Giveaway System By Methdev]
+  $removeAllComponents
   $addButton[no;gw-main-$authorID;🟢 Activar;success;;;]
   $addButton[no;manage_gw-$authorID;🛠️ Gestionar;success;;;]
   $addButton[no;create_gw-$authorID;➕ Crear;success;;;]
@@ -71,16 +105,14 @@ $c[                             GESTIONAR (MENÚ)                             ]
 $c[==========================================================================]
 
 $if[$customID==manage_gw-$authorID]
-
-$clear
+  $clear
   $ephemeral
   $title[🛠️ Gestionar Giveaway]
-  $description[Este menu te permite gestionar tus giveaway activas asi como publicar el post para permitir a tus usuarios participar en tu giveaway activas
-  
-  Selecciona una opción para continuar.]
+  $description[Este menú te permite gestionar tus giveaways activas así como publicar el post para permitir a tus usuarios participar.
+
+Selecciona una opción para continuar.]
   $color[#00BFFF]
-  
-$footer[Giveaway System By Methdev]
+  $footer[Giveaway System By Methdev]
   $removeAllComponents
   $newSelectMenu[gw-man;1;1;📍 Mostrar Opciones]
   $addSelectMenuOption[gw-man;Ver Detalles;gw-view;Consultar datos de un giveaway;no;📄]
@@ -120,9 +152,8 @@ Datos definidos:
 🔹 Tiempo giveaways: $var[tiempoTexto]  
 🔹 ¿Puede crear?: $var[crearTexto]]
   $color[#00BFFF]
-  
-$image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
-$footer[Giveaway System By Methdev]
+  $image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
+  $footer[Giveaway System By Methdev]
   $removeAllComponents
   $newSelectMenu[gw-crt;1;1;📍 Mostrar Opciones]
   $addSelectMenuOption[gw-crt;Definir Canal;gw-chn;Define el canal a usar;no;🏷️]
@@ -148,7 +179,7 @@ $if[$customID==modal-gw-chn]
   $title[🏷️ Canal definido]
   $description[Se ha definido el canal **<#$input[id]>** para tus futuros giveaways.]
   $color[#9D4EDD]
-$footer[Giveaway System By Methdev]
+  $footer[Giveaway System By Methdev]
   $removeAllComponents
   $addButton[no;create_gw-$authorID;↩️ Regresar;primary;;;]
 $endif
@@ -162,7 +193,7 @@ $if[$message==gw-time]
   $title[⏱️ | Definir tiempo]
   $description[Selecciona una de las siguientes opciones de duración para tu próximo giveaway:]
   $color[#00BFFF]
-$footer[Giveaway System By Methdev]
+  $footer[Giveaway System By Methdev]
   $removeAllComponents
   $newSelectMenu[gw-time;1;1;📍 Mostrar Opciones]
   $addSelectMenuOption[gw-time;⏱️ 30 minutos;gw-30m;Durará 30 minutos;no;🕛]
@@ -182,7 +213,7 @@ $if[$message==gw-30m]
   $title[⏱️ Tiempo definido]
   $description[Se ha definido el tiempo de tu siguiente giveaway a <t:$var[unix]:F> (<t:$var[unix]:R>)]
   $color[#00BFFF]
-$footer[Giveaway System By Methdev]
+  $footer[Giveaway System By Methdev]
   $removeAllComponents
   $addButton[no;create_gw-$authorID;↩️ Regresar;primary;;;]
 
@@ -197,7 +228,7 @@ $elseif[$message==gw-1h]
   $title[⏱️ Tiempo definido]
   $description[Se ha definido el tiempo de tu siguiente giveaway a <t:$var[unix]:F> (<t:$var[unix]:R>)]
   $color[#00BFFF]
-$footer[Giveaway System By Methdev]
+  $footer[Giveaway System By Methdev]
   $removeAllComponents
   $addButton[no;create_gw-$authorID;↩️ Regresar;primary;;;]
 
@@ -212,7 +243,7 @@ $elseif[$message==gw-1day]
   $title[⏱️ Tiempo definido]
   $description[Se ha definido el tiempo de tu siguiente giveaway a <t:$var[unix]:F> (<t:$var[unix]:R>)]
   $color[#00BFFF]
-$footer[Giveaway System By Methdev]
+  $footer[Giveaway System By Methdev]
   $removeAllComponents
   $addButton[no;create_gw-$authorID;↩️ Regresar;primary;;;]
 $endif
@@ -230,7 +261,7 @@ $if[$message==gw-creategw]
     $title[❌ | Sin canal establecido]
     $description[Debes definir un canal antes de crear el giveaway.]
     $color[#00BFFF]
-$footer[Giveaway System By Methdev]
+    $footer[Giveaway System By Methdev]
     $removeAllComponents
     $addButton[no;create_gw-$authorID;↩️ Regresar;primary;;;]
 
@@ -239,7 +270,7 @@ $footer[Giveaway System By Methdev]
     $title[❌ | Sin tiempo establecido]
     $description[Debes definir un tiempo antes de crear el giveaway.]
     $color[#00BFFF]
-$footer[Giveaway System By Methdev]
+    $footer[Giveaway System By Methdev]
     $removeAllComponents
     $addButton[no;create_gw-$authorID;↩️ Regresar;primary;;;]
 
@@ -248,7 +279,7 @@ $footer[Giveaway System By Methdev]
     $title[⌛ | Tiempo caducado]
     $description[El tiempo definido ya ha pasado, selecciona uno nuevo.]
     $color[#00BFFF]
-$footer[Giveaway System By Methdev]
+    $footer[Giveaway System By Methdev]
     $removeAllComponents
     $addButton[no;create_gw-$authorID;↩️ Regresar;primary;;;]
 
@@ -272,9 +303,8 @@ $if[$customID==modal-gw-create]
 🎁 **Premio:** $input[prize]  
 ⏳ **Duración:** <t:$json[time]:F> (<t:$json[time]:R>)]
   $color[#00FF7F]
-  
-$image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
-$footer[Giveaway System By Methdev]
+  $image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
+  $footer[Giveaway System By Methdev]
   $removeAllComponents
   $addButton[no;gw-save-$authorID;💾 Guardar Giveaway;primary;;;]
   $addButton[no;gw-main-$authorID;↩️ Menú Principal;primary;;;]
@@ -285,7 +315,7 @@ $if[$customID==gw-save-$authorID]
   $title[💾 | Giveaway Guardado]
   $description[Tu giveaway ha sido guardado con éxito. Ahora ve al canal donde quieras publicarlo y usa — Gestionar → Publicar.]
   $color[#00BFFF]
-$footer[Giveaway System By Methdev]
+  $footer[Giveaway System By Methdev]
   $removeAllComponents
   $addButton[no;gw-main-$authorID;↩️ Menú Principal;primary;;;]
 $endif
@@ -299,26 +329,26 @@ $if[$customID==end_gw-$authorID]
   $var[time;$getTimestamp]
   $httpGet[$var[api]/$json[id]/draw?token=$var[token]]
  
-$if[$httpResult[success]==true]
-  $title[✅ Giveaway Finalizado]
-  $description[El giveaway ha sido terminado.]
-  $addField[🎉 GANADOR;<@$httpResult[data;winners;0;user_id]>]
-  $color[#FF6347]
-  
-$image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
-$footer[Giveaway System By Methdev]
-  $removeAllComponents
-  $jsonSetString[id;0]
-  $jsonSetString[time;0]
-  $jsonSetString[create;No]
-  $setVar[sysgive;$jsonStringify;$authorID]
-  $else
-   $title[🚫 | Giveaway finalizado]
-    $description[Este sorteo ya ha finalizado]
-    $addField[Finaliza; <t:$json[time]:F> (<t:$json[time]:R>)]
-    $color[#9D4EDD]
+  $if[$httpResult[success]==true]
+    $title[✅ Giveaway Finalizado]
+    $description[El giveaway ha sido terminado.]
+    $addField[🎉 GANADOR;<@$httpResult[data;winners;0;user_id]>;false]
+    $color[#FF6347]
+    $image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
+    $footer[Giveaway System By Methdev]
     $removeAllComponents
-    $endif
+    $jsonSetString[id;0]
+    $jsonSetString[time;0]
+    $jsonSetString[create;No]
+    $setVar[sysgive;$jsonStringify;$authorID]
+  $else
+    $title[🚫 | Giveaway finalizado]
+    $description[Este sorteo ya ha finalizado]
+    $addField[Finaliza;<t:$json[time]:F> (<t:$json[time]:R>);false]
+    $color[#9D4EDD]
+    $footer[Giveaway System By Methdev]
+    $removeAllComponents
+  $endif
 $endif
 
 $c[==========================================================================]
@@ -326,7 +356,6 @@ $c[                             VOLVER AL MENÚ                               ]
 $c[==========================================================================]
 
 $if[$message==gw-back]
-  
   $title[🎉 Panel de Administración de Giveaways]
   $description[Usa los botones para gestionar los giveaways:
 
@@ -334,8 +363,8 @@ $if[$message==gw-back]
 2️⃣ **Crear Giveaway** – Inicia un nuevo giveaway en el servidor.  
 3️⃣ **Terminar Giveaway** – Finaliza un giveaway activo.]
   $color[#5865F2]
-  
-$footer[Giveaway System By Methdev]$removeAllComponents
+  $footer[Giveaway System By Methdev]
+  $removeAllComponents
   $addButton[no;manage_gw-$authorID;🛠️ Gestionar;success;;;]
   $addButton[no;create_gw-$authorID;➕ Crear;success;;;]
   $addButton[no;end_gw-$authorID;🛑 Terminar;danger;;;]
@@ -350,24 +379,24 @@ $if[$message==gw-view]
   $var[id;$json[id]]
   $httpGet[$var[api]/$json[id]?token=$var[token]]
 
-$if[$var[id]!=0]
-  $title[📋 Detalles del Giveaway]
-  $description[
+  $if[$var[id]!=0]
+    $title[📋 Detalles del Giveaway]
+    $description[
 🎁 Premio: **$httpResult[data;prize]**  
 ⏳ Finaliza: <t:$json[time]:F> (<t:$json[time]:R>)  
 📌 Estado: **$httpResult[data;status]**]
-  $color[#FFD700]
-$image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
-$footer[Giveaway System By Methdev]
-  $removeAllComponents
-  $addButton[no;gw-main-$authorID;↩️ Menú Principal;primary;;;]
+    $color[#FFD700]
+    $image[https://pub-ce3d0244548c433e95b2def1395a0e7a.r2.dev/MethDevLogo.gif]
+    $footer[Giveaway System By Methdev]
+    $removeAllComponents
+    $addButton[no;gw-main-$authorID;↩️ Menú Principal;primary;;;]
   $else
-  $title[🚫 No hay detalles]
-  $description[En este momento no se encuentra registrada ninguna Giveaway, inicia una para poder ver los detalles]
-  $color[#FFD700]
-$footer[Giveaway System By Methdev]
-  $removeAllComponents
-  $addButton[no;gw-main-$authorID;↩️ Menú Principal;primary;;;]
+    $title[🚫 No hay detalles]
+    $description[En este momento no se encuentra registrada ninguna Giveaway, inicia una para poder ver los detalles]
+    $color[#FFD700]
+    $footer[Giveaway System By Methdev]
+    $removeAllComponents
+    $addButton[no;gw-main-$authorID;↩️ Menú Principal;primary;;;]
   $endif
 $endif
 
@@ -379,25 +408,22 @@ $if[$message==gw-pub]
   $jsonParse[$getVar[sysgive;$authorID]]
   
   $if[$isSlash==true]
-  $title[⛔ | Post Efimero]
-  $description[Estas intentando hacer el post de tu giveaway usando el modo efimero por lo cual nadie mas que tu lo podra ver, ejecuta el comando .giveaway y intenta de nuevo hacer el Post de tu giveaway. Puedes ver una preview de tu giveaway]
-  $addField[⌛ Duración;<t:$json[time]:F> (<t:$json[time]:R>)]
-  
-$footer[Giveaway System By Methdev]
-  $removeAllComponents
-  $addButton[no;gw-post-$authorID;📢 Preview Giveaway;primary;;;]
-  $addButton[no;gw-exit-$authorID;🚫 Cancelar proceso;danger;;;]
+    $title[⛔ | Post Efímero]
+    $description[Estás intentando hacer el post de tu giveaway usando el modo efímero por lo cual nadie más que tú lo podrá ver, ejecuta el comando .giveaway y intenta de nuevo hacer el Post de tu giveaway. Puedes ver una preview de tu giveaway]
+    $addField[⌛ Duración;<t:$json[time]:F> (<t:$json[time]:R>);false]
+    $footer[Giveaway System By Methdev]
+    $removeAllComponents
+    $addButton[no;gw-post-$authorID;📢 Preview Giveaway;primary;;;]
+    $addButton[no;gw-exit-$authorID;🚫 Cancelar proceso;danger;;;]
   $else
-  
-  $title[📢 | Publicar Completado]
-  $description[Estás a punto de publicar tu giveaway.  
+    $title[📢 | Publicar Completado]
+    $description[Estás a punto de publicar tu giveaway.  
 Asegúrate de estar en el canal correcto antes de confirmar.]
-  $addField[⌛ Duración;<t:$json[time]:F> (<t:$json[time]:R>)]
-  
-$footer[Giveaway System By Methdev]
-  $removeAllComponents
-  $addButton[no;gw-post-$authorID;📢 Publicar Giveaway;primary;;;]
-  $addButton[no;gw-exit-$authorID;🚫 Cancelar proceso;danger;;;]
+    $addField[⌛ Duración;<t:$json[time]:F> (<t:$json[time]:R>);false]
+    $footer[Giveaway System By Methdev]
+    $removeAllComponents
+    $addButton[no;gw-post-$authorID;📢 Publicar Giveaway;primary;;;]
+    $addButton[no;gw-exit-$authorID;🚫 Cancelar proceso;danger;;;]
   $endif
 $endif
 
@@ -406,27 +432,26 @@ $if[$customID==gw-post-$authorID]
   $var[id;$json[id]]
   $httpGet[$var[api]/$json[id]?token=$var[token]]
 
-
-$if[$var[id]!=0]
-  $title[🎉 | Giveaway Activo]
-  $description[¡Un nuevo giveaway está activo! ¡Participa ahora!]
-  $addField[🏆 Premio; **$httpResult[data;prize]**]
-  $addField[📍 Estado; **$httpResult[data;status]**]
-  $addField[⌛ Finaliza; <t:$json[time]:F> (<t:$json[time]:R>)]
-  $addField[Patrocinador;<@$httpResult[data;created_by_user_id]>]
-  $addField[Ganadores;$httpResult[data;winners_count] ganador]
-  $color[#9D4EDD]
-$footer[Giveaway System By Methdev]
-  $removeAllComponents
-  $addButton[no;gw-join;👤 Participar;primary;;;]
+  $if[$var[id]!=0]
+    $title[🎉 | Giveaway Activo]
+    $description[¡Un nuevo giveaway está activo! ¡Participa ahora!]
+    $addField[🏆 Premio;**$httpResult[data;prize]**;false]
+    $addField[📍 Estado;**$httpResult[data;status]**;false]
+    $addField[⌛ Finaliza;<t:$json[time]:F> (<t:$json[time]:R>);false]
+    $addField[Patrocinador;<@$httpResult[data;created_by_user_id]>;false]
+    $addField[Ganadores;$httpResult[data;winners_count] ganador;false]
+    $color[#9D4EDD]
+    $footer[Giveaway System By Methdev]
+    $removeAllComponents
+    $addButton[no;gw-join;👤 Participar;primary;;;]
   $else
-  $title[🚫 No hay detalles]
-  $description[En este momento no se encuentra registrada ninguna Giveaway, inicia una para poder ver los detalles]
-  $color[#FFD700]
-$footer[Giveaway System By Methdev]
-  $removeAllComponents
-  $addButton[no;gw-main-$authorID;↩️ Menú Principal;primary;;;]
-  $deleteIn[5s]
+    $title[🚫 No hay detalles]
+    $description[En este momento no se encuentra registrada ninguna Giveaway, inicia una para poder ver los detalles]
+    $color[#FFD700]
+    $footer[Giveaway System By Methdev]
+    $removeAllComponents
+    $addButton[no;gw-main-$authorID;↩️ Menú Principal;primary;;;]
+    $deleteIn[5s]
   $endif
 $endif
 
@@ -442,17 +467,17 @@ $if[$customID==gw-join]
     $ephemeral
     $title[🎉 | Entrada confirmada]
     $description[¡Tu participación en este giveaway ha sido confirmada! ¡Buena suerte!]
-    $addField[Finaliza; <t:$json[time]:F> (<t:$json[time]:R>)]
+    $addField[Finaliza;<t:$json[time]:F> (<t:$json[time]:R>);false]
     $color[#9D4EDD]
-$footer[Giveaway System By Methdev]
+    $footer[Giveaway System By Methdev]
     $removeAllComponents
   $else
     $ephemeral
     $title[🚫 | Ya estás participando]
     $description[Ya estás registrado en este sorteo.]
-    $addField[Finaliza; <t:$json[time]:F> (<t:$json[time]:R>)]
+    $addField[Finaliza;<t:$json[time]:F> (<t:$json[time]:R>);false]
     $color[#9D4EDD]
-$footer[Giveaway System By Methdev]
+    $footer[Giveaway System By Methdev]
     $removeAllComponents
   $endif
 $endif
@@ -467,7 +492,7 @@ $if[$customID==gw-exit-$authorID]
   $description[Has cancelado el proceso de publicación del giveaway.
 Puedes retomarlo cuando quieras desde **Gestionar → Publicar** en este mismo panel.]
   $color[#FF4D4F]
-$footer[Giveaway System By Methdev]
+  $footer[Giveaway System By Methdev]
   $removeAllComponents
   $addButton[no;gw-main-$authorID;↩️ Menú Principal;primary;;;]
 $endif
